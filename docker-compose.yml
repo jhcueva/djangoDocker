@@ -14,7 +14,7 @@ services:
       - ./app:/app
       - ./data/web:/vol/web
     environment:
-      - SECRET_KEY=django-insecure-%v@@lt!vue200w^mq)c_*eeni%o1)ash7o59jzv26#p8wu439@
+      - SECRET_KEY=devsecretkey
       - DEBUG=1
       - DB_HOST=db
       - DB_NAME=devdb

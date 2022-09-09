@@ -37,7 +37,7 @@ RUN python -m venv /py && \
     mkdir -p /vol/web/static && \
     mkdir -p /vol/web/media && \
     chown -R app:app /vol && \
-    chmod -R 755 /vol 
+    chmod -R 755 /vol
 
 # When run python command we don't have to specify /py/bin
 # because it will be added to the path
