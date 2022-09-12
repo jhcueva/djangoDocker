@@ -7,8 +7,9 @@ ENV PYTHONUNBUFFERED 1
 COPY ./requirements.txt /requirements.txt
 # Cope app to docker image
 COPY ./app /app
+COPY ./scripts /scripts
 
-# Tell docker the wdir of the new container 
+# Tell docker the working directory of the new container 
 WORKDIR /app
 # Port 
 EXPOSE 8000
@@ -30,18 +31,21 @@ RUN python -m venv /py && \
     /py/bin/pip install --upgrade pip && \
     apk add --update --no-cache postgresql-client && \
     apk add --update --no-cache --virtual .tmp-deps \
-      build-base postgresql-dev musl-dev && \
+      build-base postgresql-dev musl-dev linux-headers && \
     /py/bin/pip install -r /requirements.txt && \
     apk del .tmp-deps && \
     adduser --disabled-password --no-create-home app && \
     mkdir -p /vol/web/static && \
     mkdir -p /vol/web/media && \
     chown -R app:app /vol && \
-    chmod -R 755 /vol
+    chmod -R 755 /vol && \
+    chmod -R +x /scripts
 
 # When run python command we don't have to specify /py/bin
 # because it will be added to the path
-ENV PATH="/py/bin:$PATH"
+ENV PATH="/scripts:/py/bin:$PATH"
 
 # Swithces user from root user (default user) to app user
 USER app
+
+CMD [ "run.sh" ]
